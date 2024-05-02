@@ -81,4 +81,16 @@ public class PropertyService {
         return uploadedImages;
     }
 
+    public Property updateById(Long propertyId, Property updatedProperty) {
+        Property propertyFound = this.getProperty(propertyId);
+
+        propertyFound.setAddress(updatedProperty.getAddress() == null ? propertyFound.getAddress() : updatedProperty.getAddress());
+        propertyFound.setPrice(updatedProperty.getPrice() == 0 ? propertyFound.getPrice() : updatedProperty.getPrice());
+        propertyFound.setArea(updatedProperty.getArea() == 0 ? propertyFound.getArea() : updatedProperty.getArea());
+        propertyFound.setBedrooms(updatedProperty.getBedrooms() == 0 ? propertyFound.getBedrooms() : updatedProperty.getBedrooms());
+        propertyFound.setBathrooms(updatedProperty.getBathrooms() == 0 ? propertyFound.getBathrooms() : updatedProperty.getBathrooms());
+
+        return this.pDAO.save(propertyFound);
+    }
+
 }

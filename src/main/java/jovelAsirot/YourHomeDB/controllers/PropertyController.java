@@ -51,4 +51,9 @@ public class PropertyController {
         return new PropertyResponseDTO(propertyId);
     }
 
+    @PutMapping("{propertyId}")
+    public Property updateProperty(@PathVariable Long propertyId, @RequestBody Property propertyBody) {
+        return this.propertyService.updateById(propertyId, propertyBody);
+    }
+
 }

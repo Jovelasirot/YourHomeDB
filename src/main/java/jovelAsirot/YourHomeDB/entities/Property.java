@@ -5,6 +5,7 @@ import jovelAsirot.YourHomeDB.enums.PropertyStatus;
 import jovelAsirot.YourHomeDB.enums.PropertyType;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -28,11 +29,15 @@ public class Property {
 
     private int bathrooms;
 
+    @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
 
+    @Enumerated(EnumType.STRING)
     private PropertyStatus propertyStatus;
 
     private Boolean sold;
+
+    private LocalDate createdAt;
 
     @ElementCollection
     private List<String> images;
@@ -51,6 +56,7 @@ public class Property {
         this.propertyStatus = PropertyStatus.valueOf(propertyStatus);
         this.sold = false;
         this.user = user;
+        this.createdAt = LocalDate.now();
     }
 
 }
