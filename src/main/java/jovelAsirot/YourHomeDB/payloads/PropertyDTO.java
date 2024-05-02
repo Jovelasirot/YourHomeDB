@@ -15,9 +15,10 @@ public record PropertyDTO(@NotEmpty(message = "The address is required")
                           @NotNull(message = "The number of bathroom is required")
                           int bathroom,
                           @NotEmpty(message = "Property type is required")
-                          @Pattern(regexp = "HOUSE|APARTMENT|CONDO|LAND", message = "Invalid role input, choose between HOUSE | APARTMENT | CONDO | LAND")
+                          @Pattern(regexp = "HOUSE|APARTMENT|CONDO|LAND", message = "Invalid Property type input, choose between HOUSE | APARTMENT | CONDO | LAND")
                           String propertyType,
-                          @NotEmpty(message = "Property type is required")
-                          @Pattern(regexp = "NEW|RESTORED|TO_BE_RESTORED", message = "Invalid role input, choose between NEW | RESTORED | TO_BE_RESTORED")
-                          String propertyStatus) {
+                          @NotEmpty(message = "Property status is required")
+                          @Pattern(regexp = "NEW|RESTORED|TO_BE_RESTORED", message = "Invalid Property status input, choose between NEW | RESTORED | TO_BE_RESTORED")
+                          String propertyStatus,
+                          Long userId) {
 }

@@ -41,7 +41,7 @@ public class Property {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Property(String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus) {
+    public Property(String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, User user) {
         this.address = address;
         this.price = price;
         this.area = area;
@@ -50,6 +50,7 @@ public class Property {
         this.propertyType = PropertyType.valueOf(propertyType);
         this.propertyStatus = PropertyStatus.valueOf(propertyStatus);
         this.sold = false;
+        this.user = user;
     }
 
 }
