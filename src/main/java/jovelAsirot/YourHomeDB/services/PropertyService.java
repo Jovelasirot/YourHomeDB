@@ -1,5 +1,6 @@
 package jovelAsirot.YourHomeDB.services;
 
+import com.cloudinary.Cloudinary;
 import jovelAsirot.YourHomeDB.entities.Property;
 import jovelAsirot.YourHomeDB.entities.User;
 import jovelAsirot.YourHomeDB.exceptions.NotFoundException;
@@ -13,6 +14,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PropertyService {
@@ -22,6 +29,9 @@ public class PropertyService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private Cloudinary cloudinaryUploader;
 
     public Property save(PropertyDTO payload) {
 
@@ -51,6 +61,24 @@ public class PropertyService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User userFound = (User) authentication.getPrincipal();
         return userFound.getId();
+    }
+
+    public List<String> uploadPropertyImage(Long propertyId, List<MultipartFile> images) throws IOException {
+        Property property = getProperty(propertyId);
+
+        List<String> uploadedImages = new ArrayList<>();
+
+        for (MultipartFile image : images) {
+            Map<String, Object> uploadResult = cloudinaryUploader.uploader().upload(image.getBytes(), null);
+            String url = (String) uploadResult.get("url");
+            uploadedImages.add(url);
+        }
+
+        property.getImages().addAll(uploadedImages);
+
+        pDAO.save(property);
+
+        return uploadedImages;
     }
 
 }
