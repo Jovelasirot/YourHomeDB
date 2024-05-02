@@ -28,8 +28,10 @@ public class Property {
 
     private int bathrooms;
 
+    @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
-
+    
+    @Enumerated(EnumType.STRING)
     private PropertyStatus propertyStatus;
 
     private Boolean sold;
