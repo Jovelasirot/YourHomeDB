@@ -1,6 +1,7 @@
 
 # YourHomeDB | Back-end 
 YourHomeDB is a back-end project designed to handle the creation and management of user accounts as well as properties listed for sale or wanted to be purchased. It provides robust functionality for users to register, authenticate, and manage their home listings efficiently.
+Powered by Spring Framework and PostgreSQL, handles user authentication, property listing creation, and data storage.
 
 For the front-end repo go here --> https://github.com/Jovelasirot/YourHome
 
