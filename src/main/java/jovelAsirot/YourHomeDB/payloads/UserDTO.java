@@ -17,8 +17,6 @@ public record UserDTO(@NotEmpty(message = "Required field: name")
                       @NotEmpty(message = "Required field: password")
                       @Size(min = 8, message = "The password can't be less than eight characters characters")
                       String password,
-                      @NotNull(message = "Required field: role")
-                      @Pattern(regexp = "ADMIN|USER", message = "Invalid role input, choose between ADMIN or USER")
                       String role,
                       @NotNull(message = "Required field: birthdate")
                       @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Invalid date format. Please use 'YYYY-MM-DD' ")

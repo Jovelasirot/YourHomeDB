@@ -41,7 +41,7 @@ public class UserService {
                     throw new BadRequestException("The email: " + user.getEmail() + " is already being used (ᗒᗣᗕ)՞");
                 }
         );
-        User newUser = new User(payload.name(), payload.surname(), payload.email(), payload.username(), bcrypt.encode(payload.password()), payload.role(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.birthdate());
+        User newUser = new User(payload.name(), payload.surname(), payload.email(), payload.username(), bcrypt.encode(payload.password()), payload.role() == null ? "USER" : payload.role(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.birthdate());
 
         return uDAO.save(newUser);
     }
