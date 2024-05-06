@@ -1,5 +1,8 @@
 package jovelAsirot.YourHomeDB.controllers;
 
+import jovelAsirot.YourHomeDB.entities.User;
+import jovelAsirot.YourHomeDB.payloads.UserResponseDTO;
+import jovelAsirot.YourHomeDB.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -7,9 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import jovelAsirot.YourHomeDB.entities.User;
-import jovelAsirot.YourHomeDB.payloads.UserResponseDTO;
-import jovelAsirot.YourHomeDB.services.UserService;
 
 import java.io.IOException;
 
@@ -19,11 +19,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/profile/avatar/upload/{userId}")
-    public UserResponseDTO uploadAvatar(@PathVariable Long userId, @RequestParam("image") MultipartFile image) throws IOException {
-        this.userService.uploadProfileImage(userId, image);
-        return new UserResponseDTO(userId);
+    @PostMapping("/me/avatar/upload")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public UserResponseDTO uploadAvatar(@RequestParam("image") MultipartFile image,
+                                        @AuthenticationPrincipal User currentUser) throws IOException {
+        this.userService.uploadProfileImage(currentUser.getId(), image);
+        return new UserResponseDTO(currentUser.getId());
     }
+
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")

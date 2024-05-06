@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,8 +39,9 @@ public class User implements UserDetails {
 
     private String avatar;
 
+    private LocalDate birthdate;
 
-    public User(String name, String surname, String email, String username, String password, String role, String avatar) {
+    public User(String name, String surname, String email, String username, String password, String role, String avatar, String birthdate) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -47,6 +49,7 @@ public class User implements UserDetails {
         this.password = password;
         this.role = UserRole.valueOf(role);
         this.avatar = avatar;
+        this.birthdate = LocalDate.parse(birthdate);
     }
 
     @Override
@@ -55,6 +58,7 @@ public class User implements UserDetails {
             return List.of(new SimpleGrantedAuthority(this.role.name()));
         }
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

@@ -2,6 +2,11 @@ package jovelAsirot.YourHomeDB.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import jovelAsirot.YourHomeDB.entities.User;
+import jovelAsirot.YourHomeDB.exceptions.BadRequestException;
+import jovelAsirot.YourHomeDB.exceptions.NotFoundException;
+import jovelAsirot.YourHomeDB.payloads.UserDTO;
+import jovelAsirot.YourHomeDB.repositories.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,11 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import jovelAsirot.YourHomeDB.entities.User;
-import jovelAsirot.YourHomeDB.exceptions.BadRequestException;
-import jovelAsirot.YourHomeDB.exceptions.NotFoundException;
-import jovelAsirot.YourHomeDB.payloads.UserDTO;
-import jovelAsirot.YourHomeDB.repositories.UserDAO;
 
 import java.io.IOException;
 
@@ -41,7 +41,7 @@ public class UserService {
                     throw new BadRequestException("The email: " + user.getEmail() + " is already being used (ᗒᗣᗕ)՞");
                 }
         );
-        User newUser = new User(payload.name(), payload.surname(), payload.email(), payload.username(), bcrypt.encode(payload.password()), payload.role(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname());
+        User newUser = new User(payload.name(), payload.surname(), payload.email(), payload.username(), bcrypt.encode(payload.password()), payload.role(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.birthdate());
 
         return uDAO.save(newUser);
     }
