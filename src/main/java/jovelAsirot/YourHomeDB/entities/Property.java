@@ -37,6 +37,8 @@ public class Property {
 
     private Boolean sold;
 
+    private String description;
+
     private LocalDate createdAt;
 
     @ElementCollection
@@ -46,7 +48,7 @@ public class Property {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Property(String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, User user) {
+    public Property(String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, String description, User user) {
         this.address = address;
         this.price = price;
         this.area = area;
@@ -55,6 +57,7 @@ public class Property {
         this.propertyType = PropertyType.valueOf(propertyType);
         this.propertyStatus = PropertyStatus.valueOf(propertyStatus);
         this.sold = false;
+        this.description = description;
         this.user = user;
         this.createdAt = LocalDate.now();
     }
