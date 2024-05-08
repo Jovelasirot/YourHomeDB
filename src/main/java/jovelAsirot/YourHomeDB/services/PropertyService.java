@@ -3,6 +3,8 @@ package jovelAsirot.YourHomeDB.services;
 import com.cloudinary.Cloudinary;
 import jovelAsirot.YourHomeDB.entities.Property;
 import jovelAsirot.YourHomeDB.entities.User;
+import jovelAsirot.YourHomeDB.enums.PropertyStatus;
+import jovelAsirot.YourHomeDB.enums.PropertyType;
 import jovelAsirot.YourHomeDB.exceptions.NotFoundException;
 import jovelAsirot.YourHomeDB.payloads.PropertyDTO;
 import jovelAsirot.YourHomeDB.repositories.PropertyDAO;
@@ -99,7 +101,8 @@ public class PropertyService {
             String city, Double minPrice, Double maxPrice,
             Integer minBedrooms, Integer maxBedrooms,
             Integer minBathrooms, Integer maxBathrooms,
-            Double minArea, Double maxArea
+            Double minArea, Double maxArea,
+            PropertyStatus propertyStatus, PropertyType propertyType
     ) {
 
         Specification<Property> spec = Specification.where(null);
@@ -146,6 +149,16 @@ public class PropertyService {
         if (maxArea != null) {
             spec = spec.and((root, query, builder) ->
                     builder.lessThanOrEqualTo(root.get("area"), maxArea));
+        }
+
+        if (propertyStatus != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.equal(root.get("propertyStatus"), propertyStatus));
+        }
+
+        if (propertyType != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.equal(root.get("propertyType"), propertyType));
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));

@@ -2,6 +2,8 @@ package jovelAsirot.YourHomeDB.controllers;
 
 
 import jovelAsirot.YourHomeDB.entities.Property;
+import jovelAsirot.YourHomeDB.enums.PropertyStatus;
+import jovelAsirot.YourHomeDB.enums.PropertyType;
 import jovelAsirot.YourHomeDB.exceptions.BadRequestException;
 import jovelAsirot.YourHomeDB.payloads.PropertyDTO;
 import jovelAsirot.YourHomeDB.payloads.PropertyResponseDTO;
@@ -69,14 +71,17 @@ public class PropertyController {
             @RequestParam(required = false) Integer minBathrooms,
             @RequestParam(required = false) Integer maxBathrooms,
             @RequestParam(required = false) Double minArea,
-            @RequestParam(required = false) Double maxArea
+            @RequestParam(required = false) Double maxArea,
+            @RequestParam(required = false) String propertyStatus,
+            @RequestParam(required = false) String propertyType
     ) {
         return this.propertyService.filterProperties(
                 page, size, sortBy,
                 city, minPrice, maxPrice,
                 minBedrooms, maxBedrooms,
                 minBathrooms, maxBathrooms,
-                minArea, maxArea
+                minArea, maxArea,
+                PropertyStatus.valueOf(propertyStatus), PropertyType.valueOf(propertyType)
         );
     }
 
