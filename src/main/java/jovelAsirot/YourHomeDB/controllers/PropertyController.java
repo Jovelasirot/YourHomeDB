@@ -56,4 +56,28 @@ public class PropertyController {
         return this.propertyService.updateById(propertyId, propertyBody);
     }
 
+    @GetMapping("/search")
+    public Page<Property> searchProperties(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Integer minBedrooms,
+            @RequestParam(required = false) Integer maxBedrooms,
+            @RequestParam(required = false) Integer minBathrooms,
+            @RequestParam(required = false) Integer maxBathrooms,
+            @RequestParam(required = false) Double minArea,
+            @RequestParam(required = false) Double maxArea
+    ) {
+        return this.propertyService.filterProperties(
+                page, size, sortBy,
+                city, minPrice, maxPrice,
+                minBedrooms, maxBedrooms,
+                minBathrooms, maxBathrooms,
+                minArea, maxArea
+        );
+    }
+
 }

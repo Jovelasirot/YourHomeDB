@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class PropertyService {
 
         User userFound = this.userService.findById(userId);
 
-        Property newProperty = new Property(payload.address(), payload.price(), payload.area(), payload.bedrooms(), payload.bedrooms(), payload.propertyType(), payload.propertyStatus(), payload.description(), userFound);
+        Property newProperty = new Property(payload.city(), payload.address(), payload.price(), payload.area(), payload.bedrooms(), payload.bedrooms(), payload.propertyType(), payload.propertyStatus(), payload.description(), userFound);
         return pDAO.save(newProperty);
     }
 
@@ -91,6 +92,65 @@ public class PropertyService {
         propertyFound.setBathrooms(updatedProperty.getBathrooms() == 0 ? propertyFound.getBathrooms() : updatedProperty.getBathrooms());
 
         return this.pDAO.save(propertyFound);
+    }
+
+    public Page<Property> filterProperties(
+            int page, int size, String sortBy,
+            String city, Double minPrice, Double maxPrice,
+            Integer minBedrooms, Integer maxBedrooms,
+            Integer minBathrooms, Integer maxBathrooms,
+            Double minArea, Double maxArea
+    ) {
+
+        Specification<Property> spec = Specification.where(null);
+
+        if (city != null && !city.isEmpty()) {
+            spec = spec.and((root, query, builder) ->
+                    builder.equal(root.get("city"), city));
+        }
+
+        if (minPrice != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.greaterThanOrEqualTo(root.get("price"), minPrice));
+        }
+
+        if (maxPrice != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.lessThanOrEqualTo(root.get("price"), maxPrice));
+        }
+        if (minBedrooms != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.greaterThanOrEqualTo(root.get("bedrooms"), minBedrooms));
+        }
+
+        if (maxBedrooms != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.lessThanOrEqualTo(root.get("bedrooms"), maxBedrooms));
+        }
+
+        if (minBathrooms != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.greaterThanOrEqualTo(root.get("bathrooms"), minBathrooms));
+        }
+
+        if (maxBathrooms != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.lessThanOrEqualTo(root.get("bathrooms"), maxBathrooms));
+        }
+
+        if (minArea != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.greaterThanOrEqualTo(root.get("area"), minArea));
+        }
+
+        if (maxArea != null) {
+            spec = spec.and((root, query, builder) ->
+                    builder.lessThanOrEqualTo(root.get("area"), maxArea));
+        }
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+        return pDAO.findAll(spec, pageable);
     }
 
 }

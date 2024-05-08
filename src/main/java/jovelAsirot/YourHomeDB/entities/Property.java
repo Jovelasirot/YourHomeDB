@@ -19,6 +19,8 @@ public class Property {
     @Setter(value = AccessLevel.NONE)
     private Long id;
 
+    private String city;
+
     private String address;
 
     private double price;
@@ -48,7 +50,8 @@ public class Property {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Property(String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, String description, User user) {
+    public Property(String city, String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, String description, User user) {
+        this.city = city;
         this.address = address;
         this.price = price;
         this.area = area;
