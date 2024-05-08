@@ -75,13 +75,17 @@ public class PropertyController {
             @RequestParam(required = false) String propertyStatus,
             @RequestParam(required = false) String propertyType
     ) {
+
+        PropertyStatus status = propertyStatus != null ? PropertyStatus.valueOf(propertyStatus) : null;
+        PropertyType type = propertyType != null ? PropertyType.valueOf(propertyType) : null;
+
         return this.propertyService.filterProperties(
                 page, size, sortBy,
                 city, minPrice, maxPrice,
                 minBedrooms, maxBedrooms,
                 minBathrooms, maxBathrooms,
                 minArea, maxArea,
-                PropertyStatus.valueOf(propertyStatus), PropertyType.valueOf(propertyType)
+                status, type
         );
     }
 
