@@ -2,6 +2,7 @@ package jovelAsirot.YourHomeDB.controllers;
 
 import jovelAsirot.YourHomeDB.entities.User;
 import jovelAsirot.YourHomeDB.payloads.UserResponseDTO;
+import jovelAsirot.YourHomeDB.payloads.UserResponseFavoriteDTO;
 import jovelAsirot.YourHomeDB.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,11 +20,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/favorite/{userId}/properties/{propertyId}")
-    public String updateFavoriteProperty(@PathVariable Long userId, @PathVariable Long propertyId, @AuthenticationPrincipal User currentUser) {
-        if (!userId.equals(currentUser.getId())) {
-            return "You are not authorized to modify another user's favorite list";
-        }
+    @PostMapping("/me/favorites/properties/{propertyId}")
+    public String updateFavoriteProperty(@PathVariable Long propertyId, @AuthenticationPrincipal User currentUser) {
         boolean propertyAdded = userService.updateFavoriteProperty(currentUser.getId(), propertyId);
         return propertyAdded ? "Property added to favorites successfully" : "Property removed from favorites successfully";
     }
@@ -58,6 +56,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long userId) {
         this.userService.deleteById(userId);
+    }
+
+    @GetMapping("/me/favorites")
+    public UserResponseFavoriteDTO getFavoriteProperties(@AuthenticationPrincipal User currentUser) {
+        return userService.getUserFavoriteProperties(currentUser.getId());
     }
 
 }

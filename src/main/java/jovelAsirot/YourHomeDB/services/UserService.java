@@ -7,6 +7,7 @@ import jovelAsirot.YourHomeDB.entities.User;
 import jovelAsirot.YourHomeDB.exceptions.BadRequestException;
 import jovelAsirot.YourHomeDB.exceptions.NotFoundException;
 import jovelAsirot.YourHomeDB.payloads.UserDTO;
+import jovelAsirot.YourHomeDB.payloads.UserResponseFavoriteDTO;
 import jovelAsirot.YourHomeDB.repositories.PropertyDAO;
 import jovelAsirot.YourHomeDB.repositories.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -100,12 +102,24 @@ public class UserService {
             user.getFavoriteProperties().remove(property);
             uDAO.save(user);
             return false;
-            
+
         } else {
             user.getFavoriteProperties().add(property);
             uDAO.save(user);
             return true;
         }
+    }
+
+    public UserResponseFavoriteDTO getUserFavoriteProperties(Long userId) {
+        User user = uDAO.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+        
+        user.getFavoriteProperties().size();
+
+        return new UserResponseFavoriteDTO(user.getFavoriteProperties()
+                .stream()
+                .map(Property::getId)
+                .collect(Collectors.toSet()));
     }
 
 }
