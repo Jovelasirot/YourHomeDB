@@ -19,6 +19,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/favorite/{userId}/properties/{propertyId}")
+    public String updateFavoriteProperty(@PathVariable Long userId, @PathVariable Long propertyId, @AuthenticationPrincipal User currentUser) {
+        if (!userId.equals(currentUser.getId())) {
+            return "You are not authorized to modify another user's favorite list";
+        }
+        boolean propertyAdded = userService.updateFavoriteProperty(currentUser.getId(), propertyId);
+        return propertyAdded ? "Property added to favorites successfully" : "Property removed from favorites successfully";
+    }
+
     @PostMapping("/me/avatar/upload")
     @PreAuthorize("hasAuthority('ADMIN')")
     public UserResponseDTO uploadAvatar(@RequestParam("image") MultipartFile image,
@@ -26,7 +35,6 @@ public class UserController {
         this.userService.uploadProfileImage(currentUser.getId(), image);
         return new UserResponseDTO(currentUser.getId());
     }
-
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -46,7 +54,7 @@ public class UserController {
     }
 
     @DeleteMapping("{userId}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthorities('ADMIN','USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long userId) {
         this.userService.deleteById(userId);

@@ -2,6 +2,8 @@ package jovelAsirot.YourHomeDB.payloads;
 
 import jakarta.validation.constraints.*;
 
+import java.util.List;
+
 public record UserDTO(@NotEmpty(message = "Required field: name")
                       @Size(min = 2, max = 30, message = "The name can't be less than two characters and more than 30 characters")
                       String name,
@@ -20,6 +22,7 @@ public record UserDTO(@NotEmpty(message = "Required field: name")
                       String role,
                       @NotNull(message = "Required field: birthdate")
                       @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Invalid date format. Please use 'YYYY-MM-DD' ")
-                      String birthdate
+                      String birthdate,
+                      List<Long> favoritePropertyIds
 ) {
 }

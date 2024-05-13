@@ -2,10 +2,12 @@ package jovelAsirot.YourHomeDB.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import jovelAsirot.YourHomeDB.entities.Property;
 import jovelAsirot.YourHomeDB.entities.User;
 import jovelAsirot.YourHomeDB.exceptions.BadRequestException;
 import jovelAsirot.YourHomeDB.exceptions.NotFoundException;
 import jovelAsirot.YourHomeDB.payloads.UserDTO;
+import jovelAsirot.YourHomeDB.repositories.PropertyDAO;
 import jovelAsirot.YourHomeDB.repositories.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder bcrypt;
+
+    @Autowired
+    private PropertyDAO pDAO;
 
     public Page<User> getUsers(int page, int size, String sortBy) {
         if (size > 100) size = 100;
@@ -84,6 +89,23 @@ public class UserService {
         user.setAvatar(url);
         uDAO.save(user);
         return url;
+    }
+
+    public boolean updateFavoriteProperty(Long userId, Long propertyId) {
+        User user = findById(userId);
+        Property property = pDAO.findById(propertyId)
+                .orElseThrow(() -> new NotFoundException("Property not found with ID: " + propertyId));
+
+        if (user.getFavoriteProperties().contains(property)) {
+            user.getFavoriteProperties().remove(property);
+            uDAO.save(user);
+            return false;
+            
+        } else {
+            user.getFavoriteProperties().add(property);
+            uDAO.save(user);
+            return true;
+        }
     }
 
 }

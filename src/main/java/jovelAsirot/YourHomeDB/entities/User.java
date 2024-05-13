@@ -1,5 +1,6 @@
 package jovelAsirot.YourHomeDB.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jovelAsirot.YourHomeDB.enums.UserRole;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -40,6 +42,15 @@ public class User implements UserDetails {
     private String avatar;
 
     private LocalDate birthdate;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "user_favorite_properties",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "property_id")
+    )
+    private Set<Property> favoriteProperties;
 
     public User(String name, String surname, String email, String username, String password, String role, String avatar, String birthdate) {
         this.name = name;
