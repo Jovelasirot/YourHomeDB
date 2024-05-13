@@ -42,7 +42,7 @@ public class PropertyService {
 
         User userFound = this.userService.findById(userId);
 
-        Property newProperty = new Property(payload.city(), payload.address(), payload.price(), payload.area(), payload.bedrooms(), payload.bedrooms(), payload.propertyType(), payload.propertyStatus(), payload.description(), userFound);
+        Property newProperty = new Property(payload.city(), payload.country(), payload.address(), payload.price(), payload.area(), payload.bedrooms(), payload.bedrooms(), payload.propertyType(), payload.propertyStatus(), payload.description(), userFound);
         return pDAO.save(newProperty);
     }
 

@@ -43,6 +43,8 @@ public class User implements UserDetails {
 
     private LocalDate birthdate;
 
+    private String country;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -52,7 +54,7 @@ public class User implements UserDetails {
     )
     private Set<Property> favoriteProperties;
 
-    public User(String name, String surname, String email, String username, String password, String role, String avatar, String birthdate) {
+    public User(String name, String surname, String email, String username, String password, String role, String avatar, String birthdate, String country) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -61,6 +63,7 @@ public class User implements UserDetails {
         this.role = UserRole.valueOf(role);
         this.avatar = avatar;
         this.birthdate = LocalDate.parse(birthdate);
+        this.country = country;
     }
 
     @Override

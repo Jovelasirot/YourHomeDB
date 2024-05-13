@@ -27,7 +27,6 @@ public class UserController {
     }
 
     @PostMapping("/me/avatar/upload")
-    @PreAuthorize("hasAuthority('ADMIN')")
     public UserResponseDTO uploadAvatar(@RequestParam("image") MultipartFile image,
                                         @AuthenticationPrincipal User currentUser) throws IOException {
         this.userService.uploadProfileImage(currentUser.getId(), image);

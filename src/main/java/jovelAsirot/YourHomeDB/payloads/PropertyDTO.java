@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Pattern;
 
 public record PropertyDTO(@NotEmpty(message = "Required field: city")
                           String city,
+                          @NotEmpty(message = "Required field: country")
+                          String country,
                           @NotEmpty(message = "Required field: address")
                           String address,
                           @NotNull(message = "Required field: price")

@@ -21,6 +21,8 @@ public class Property {
 
     private String city;
 
+    private String country;
+
     private String address;
 
     private double price;
@@ -50,8 +52,9 @@ public class Property {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Property(String city, String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, String description, User user) {
+    public Property(String city, String country, String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, String description, User user) {
         this.city = city;
+        this.country = country;
         this.address = address;
         this.price = price;
         this.area = area;

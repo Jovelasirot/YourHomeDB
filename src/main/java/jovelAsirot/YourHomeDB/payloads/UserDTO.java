@@ -23,6 +23,8 @@ public record UserDTO(@NotEmpty(message = "Required field: name")
                       @NotNull(message = "Required field: birthdate")
                       @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Invalid date format. Please use 'YYYY-MM-DD' ")
                       String birthdate,
+                      @NotEmpty(message = "Required field: country")
+                      String country,
                       List<Long> favoritePropertyIds
 ) {
 }

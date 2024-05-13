@@ -48,7 +48,7 @@ public class UserService {
                     throw new BadRequestException("The email: " + user.getEmail() + " is already being used (ᗒᗣᗕ)՞");
                 }
         );
-        User newUser = new User(payload.name(), payload.surname(), payload.email(), payload.username(), bcrypt.encode(payload.password()), payload.role() == null ? "USER" : payload.role(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.birthdate());
+        User newUser = new User(payload.name(), payload.surname(), payload.email(), payload.username(), bcrypt.encode(payload.password()), payload.role() == null ? "USER" : payload.role(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.birthdate(), payload.country());
 
         return uDAO.save(newUser);
     }
@@ -113,7 +113,7 @@ public class UserService {
     public UserResponseFavoriteDTO getUserFavoriteProperties(Long userId) {
         User user = uDAO.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
-        
+
         user.getFavoriteProperties().size();
 
         return new UserResponseFavoriteDTO(user.getFavoriteProperties()
