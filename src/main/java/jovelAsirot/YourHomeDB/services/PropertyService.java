@@ -102,7 +102,8 @@ public class PropertyService {
             Integer minBedrooms, Integer maxBedrooms,
             Integer minBathrooms, Integer maxBathrooms,
             Double minArea, Double maxArea,
-            PropertyStatus propertyStatus, PropertyType propertyType
+            PropertyStatus propertyStatus, PropertyType propertyType,
+            String country
     ) {
 
         Specification<Property> spec = Specification.where(null);
@@ -159,6 +160,11 @@ public class PropertyService {
         if (propertyType != null) {
             spec = spec.and((root, query, builder) ->
                     builder.equal(root.get("propertyType"), propertyType));
+        }
+
+        if (propertyType != null && !country.isEmpty()) {
+            spec = spec.and((root, query, builder) ->
+                    builder.equal(root.get("country"), country));
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));

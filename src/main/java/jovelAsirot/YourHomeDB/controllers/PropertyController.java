@@ -73,7 +73,8 @@ public class PropertyController {
             @RequestParam(required = false) Double minArea,
             @RequestParam(required = false) Double maxArea,
             @RequestParam(required = false) String propertyStatus,
-            @RequestParam(required = false) String propertyType
+            @RequestParam(required = false) String propertyType,
+            @RequestParam(required = false) String country
     ) {
 
         PropertyStatus status = propertyStatus != null ? PropertyStatus.valueOf(propertyStatus) : null;
@@ -85,8 +86,14 @@ public class PropertyController {
                 minBedrooms, maxBedrooms,
                 minBathrooms, maxBathrooms,
                 minArea, maxArea,
-                status, type
+                status, type, country
         );
     }
+
+    @GetMapping("/{propertyId}")
+    public Property getPropertyById(@PathVariable Long propertyId) {
+        return this.propertyService.getProperty(propertyId);
+    }
+
 
 }
