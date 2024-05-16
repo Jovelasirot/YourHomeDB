@@ -162,7 +162,7 @@ public class PropertyService {
                     builder.equal(root.get("propertyType"), propertyType));
         }
 
-        if (propertyType != null && !country.isEmpty()) {
+        if (country != null && !country.isEmpty()) {
             spec = spec.and((root, query, builder) ->
                     builder.equal(root.get("country"), country));
         }
