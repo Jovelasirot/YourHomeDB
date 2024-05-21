@@ -48,7 +48,12 @@ public class UserService {
                     throw new BadRequestException("The email: " + user.getEmail() + " is already being used (ᗒᗣᗕ)՞");
                 }
         );
-        User newUser = new User(payload.name(), payload.surname(), payload.email(), payload.username(), bcrypt.encode(payload.password()), payload.role() == null ? "USER" : payload.role(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.birthdate(), payload.country());
+        this.uDAO.findByPhone(payload.phone()).ifPresent(
+                user -> {
+                    throw new BadRequestException("The phone number: " + user.getPhone() + " is already being used (ᗒᗣᗕ)՞");
+                }
+        );
+        User newUser = new User(payload.name(), payload.surname(), payload.email(), bcrypt.encode(payload.password()), payload.role() == null ? "USER" : payload.role(), "https://ui-avatars.com/api/?name=" + payload.name() + "+" + payload.surname(), payload.birthdate(), payload.country(), payload.phone());
 
         return uDAO.save(newUser);
     }

@@ -32,8 +32,6 @@ public class User implements UserDetails {
 
     private String email;
 
-    private String username;
-
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -45,6 +43,8 @@ public class User implements UserDetails {
 
     private String country;
 
+    private String phone;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -54,16 +54,16 @@ public class User implements UserDetails {
     )
     private Set<Property> favoriteProperties;
 
-    public User(String name, String surname, String email, String username, String password, String role, String avatar, String birthdate, String country) {
+    public User(String name, String surname, String email, String password, String role, String avatar, String birthdate, String country, String phone) {
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.username = username;
         this.password = password;
         this.role = UserRole.valueOf(role);
         this.avatar = avatar;
         this.birthdate = LocalDate.parse(birthdate);
         this.country = country;
+        this.phone = phone;
     }
 
     @Override
@@ -71,6 +71,11 @@ public class User implements UserDetails {
         {
             return List.of(new SimpleGrantedAuthority(this.role.name()));
         }
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
     }
 
     @Override

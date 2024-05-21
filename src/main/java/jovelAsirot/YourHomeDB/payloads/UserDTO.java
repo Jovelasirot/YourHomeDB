@@ -13,9 +13,6 @@ public record UserDTO(@NotEmpty(message = "Required field: name")
                       @NotEmpty(message = "Required field: email")
                       @Email(message = "The email given is invalid")
                       String email,
-                      @NotEmpty(message = "Required field: username")
-                      @Size(min = 2, max = 30, message = "The username can't be less than two characters and more than 30 characters")
-                      String username,
                       @NotEmpty(message = "Required field: password")
                       @Size(min = 8, message = "The password can't be less than eight characters characters")
                       String password,
@@ -25,6 +22,8 @@ public record UserDTO(@NotEmpty(message = "Required field: name")
                       String birthdate,
                       @NotEmpty(message = "Required field: country")
                       String country,
+                      @NotEmpty(message = "Required field: phone")
+                      String phone,
                       List<Long> favoritePropertyIds
 ) {
 }
