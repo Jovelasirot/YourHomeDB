@@ -75,7 +75,6 @@ public class UserService {
 
     public void deleteById(Long userId) {
         User userFound = this.findById(userId);
-
         this.uDAO.delete(userFound);
     }
 

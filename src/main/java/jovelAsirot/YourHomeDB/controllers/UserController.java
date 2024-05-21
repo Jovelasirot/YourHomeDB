@@ -44,17 +44,28 @@ public class UserController {
         return currentUser;
     }
 
-    @PutMapping("{userId}")
+    @PutMapping("/me/update")
+    public User updateCurrentUser(@AuthenticationPrincipal User currentUser, @RequestBody User userBody) {
+        return this.userService.updateById(currentUser.getId(), userBody);
+    }
+
+    @PutMapping("/update/{userId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public User updateUser(@PathVariable Long userId, @RequestBody User userBody) {
+    public User updateUserAdmin(@PathVariable Long userId, @RequestBody User userBody) {
         return this.userService.updateById(userId, userBody);
     }
 
-    @DeleteMapping("{userId}")
-    @PreAuthorize("hasAnyAuthorities('ADMIN','USER')")
+    @DeleteMapping("/delete/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long userId) {
+    public void deleteUserAdmin(@PathVariable Long userId) {
         this.userService.deleteById(userId);
+    }
+
+    @DeleteMapping("/me/delete")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCurrentUser(@AuthenticationPrincipal User currentUser) {
+        this.userService.deleteById(currentUser.getId());
     }
 
     @GetMapping("/me/favorites")
