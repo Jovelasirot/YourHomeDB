@@ -71,8 +71,15 @@ public class UserService {
                 }
         );
 
+        this.uDAO.findByPhone(updatedUser.getPhone()).ifPresent(
+                user -> {
+                    throw new BadRequestException("The phone number: " + user.getPhone() + " is already being used (ᗒᗣᗕ)՞");
+                }
+        );
+
         userFound.setName(updatedUser.getName());
         userFound.setSurname(updatedUser.getSurname());
+        userFound.setPhone(updatedUser.getPhone() == null ? userFound.getPhone() : updatedUser.getPhone());
         userFound.setEmail(updatedUser.getEmail() == null ? userFound.getEmail() : updatedUser.getEmail());
 
         return this.uDAO.save(userFound);

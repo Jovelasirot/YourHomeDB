@@ -88,10 +88,13 @@ public class PropertyService {
         Property propertyFound = this.getProperty(propertyId);
 
         propertyFound.setAddress(updatedProperty.getAddress() == null ? propertyFound.getAddress() : updatedProperty.getAddress());
+        propertyFound.setCity(updatedProperty.getCity() == null ? propertyFound.getCity() : updatedProperty.getCity());
+        propertyFound.setCountry(updatedProperty.getCountry() == null ? propertyFound.getCountry() : updatedProperty.getCountry());
         propertyFound.setPrice(updatedProperty.getPrice() == 0 ? propertyFound.getPrice() : updatedProperty.getPrice());
         propertyFound.setArea(updatedProperty.getArea() == 0 ? propertyFound.getArea() : updatedProperty.getArea());
         propertyFound.setBedrooms(updatedProperty.getBedrooms() == 0 ? propertyFound.getBedrooms() : updatedProperty.getBedrooms());
         propertyFound.setBathrooms(updatedProperty.getBathrooms() == 0 ? propertyFound.getBathrooms() : updatedProperty.getBathrooms());
+        propertyFound.setDescription(updatedProperty.getDescription() == null ? propertyFound.getDescription() : updatedProperty.getDescription());
 
         return this.pDAO.save(propertyFound);
     }
