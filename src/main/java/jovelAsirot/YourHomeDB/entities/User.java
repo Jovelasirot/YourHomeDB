@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -53,6 +54,10 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "property_id")
     )
     private Set<Property> favoriteProperties;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Reservation> reservations = new HashSet<>();
 
     public User(String name, String surname, String email, String password, String role, String avatar, String birthdate, String country, String phone) {
         this.name = name;

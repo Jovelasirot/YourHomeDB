@@ -1,12 +1,15 @@
 package jovelAsirot.YourHomeDB.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jovelAsirot.YourHomeDB.enums.PropertyStatus;
 import jovelAsirot.YourHomeDB.enums.PropertyType;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -51,6 +54,10 @@ public class Property {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Reservation> reservations = new HashSet<>();
 
     public Property(String city, String country, String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, String description, User user) {
         this.city = city;
