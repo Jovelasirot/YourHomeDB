@@ -17,9 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -104,10 +106,15 @@ public class UserService {
         return url;
     }
 
+    @Transactional
     public boolean updateFavoriteProperty(Long userId, Long propertyId) {
         User user = findById(userId);
         Property property = pDAO.findById(propertyId)
                 .orElseThrow(() -> new NotFoundException("Property not found with ID: " + propertyId));
+
+        if (user.getFavoriteProperties() == null) {
+            user.setFavoriteProperties(new HashSet<>());
+        }
 
         if (user.getFavoriteProperties().contains(property)) {
             user.getFavoriteProperties().remove(property);

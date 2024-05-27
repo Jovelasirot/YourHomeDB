@@ -50,7 +50,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "http://localhost:5174/"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "http://localhost:5174/", "https://your-home.vercel.app/"));
         config.setAllowedMethods(Arrays.asList("*"));
         config.setAllowedHeaders(Arrays.asList("*"));
 

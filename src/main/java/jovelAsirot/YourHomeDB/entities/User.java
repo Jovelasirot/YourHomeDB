@@ -53,7 +53,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "property_id")
     )
-    private Set<Property> favoriteProperties;
+    private Set<Property> favoriteProperties = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore

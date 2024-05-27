@@ -3,6 +3,7 @@ package jovelAsirot.YourHomeDB.services;
 import jovelAsirot.YourHomeDB.entities.Property;
 import jovelAsirot.YourHomeDB.entities.Reservation;
 import jovelAsirot.YourHomeDB.entities.User;
+import jovelAsirot.YourHomeDB.enums.ReservationStatus;
 import jovelAsirot.YourHomeDB.exceptions.NotFoundException;
 import jovelAsirot.YourHomeDB.payloads.ReservationDTO;
 import jovelAsirot.YourHomeDB.repositories.PropertyDAO;
@@ -33,7 +34,7 @@ public class ReservationService {
         User user = uDAO.findById(payload.userId()).orElseThrow(() -> new NotFoundException(payload.userId()));
         Property property = pDAO.findById(payload.propertyId()).orElseThrow(() -> new NotFoundException(payload.propertyId()));
 
-        Reservation reservation = new Reservation(user, property, payload.reservationDate(), payload.time(), payload.reservationStatus());
+        Reservation reservation = new Reservation(user, property, payload.reservationDate(), payload.time(), payload.reservationStatus() == null ? String.valueOf(ReservationStatus.PENDING) : payload.reservationStatus());
         return rDAO.save(reservation);
     }
 
