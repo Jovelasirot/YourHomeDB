@@ -9,6 +9,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -59,6 +60,10 @@ public class Property {
     @JsonIgnore
     private Set<Reservation> reservations = new HashSet<>();
 
+    @ManyToMany(mappedBy = "favoriteProperties")
+    private Set<User> users = new HashSet<>();
+
+
     public Property(String city, String country, String address, double price, double area, int bedrooms, int bathrooms, String propertyType, String propertyStatus, String description, User user) {
         this.city = city;
         this.country = country;
@@ -74,5 +79,19 @@ public class Property {
         this.user = user;
         this.createdAt = LocalDate.now();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        return Objects.equals(id, property.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
 
 }
