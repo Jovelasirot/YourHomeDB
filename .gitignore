@@ -34,5 +34,3 @@ build/
 
 #### ENV ####
 env.properties
-
-Dockerfile
